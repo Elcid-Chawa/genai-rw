@@ -1,0 +1,37 @@
+{
+  "common": {
+    "title": "Rwanda AI Assistant",
+    "welcome": "Welcome to Rwanda AI Assistant",
+    "description": "Get help with insurance, tourism, farming, and business in Rwanda"
+  },
+  "chat": {
+    "welcome_message": "Hello! I can help you with insurance quotes, tourism planning, farming advice, and business registration in Rwanda.",
+    "example_insurance": "Try: 'Get me a third-party motor quote for a Toyota in Kigali'",
+    "example_tourism": "Try: 'Plan a 1-day tour near Musanze on a 50k RWF budget'",
+    "example_farming": "Try: 'I grow maize in Nyamagabe; what should I do this month?'",
+    "example_business": "Try: 'How do I register a sole proprietorship?'",
+    "input_placeholder": "Type your message here...",
+    "send": "Send",
+    "error": "Sorry, something went wrong. Please try again."
+  },
+  "cards": {
+    "insurance_quote": "Insurance Quote",
+    "annual_premium": "Annual Premium",
+    "coverage": "Coverage",
+    "request_callback": "Request Callback",
+    "suggested_itinerary": "Suggested Itinerary",
+    "title": "Title",
+    "duration": "Duration",
+    "estimated_cost": "Estimated Cost",
+    "open_map": "Open Map",
+    "farming_tips": "Farming Tips",
+    "crop": "Crop",
+    "district": "District",
+    "this_month_activities": "This Month's Activities",
+    "download_checklist": "Download Checklist",
+    "business_registration": "Business Registration",
+    "entity_type": "Entity Type",
+    "steps": "Steps",
+    "open_portal": "Open Official Portal"
+  }
+}

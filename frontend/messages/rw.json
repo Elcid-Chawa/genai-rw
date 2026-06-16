@@ -1,0 +1,37 @@
+{
+  "common": {
+    "title": "Umufasha wa AI w'u Rwanda",
+    "welcome": "Murakaza neza ku Mufasha wa AI w'u Rwanda",
+    "description": "Bonera ubufasha mu bwishingizi, ubukerarugendo, ubuhinzi, n'ubucuruzi mu Rwanda"
+  },
+  "chat": {
+    "welcome_message": "Muraho! Nshobora kubafasha mu giciro cy'ubwishingizi, gutegura urugendo, inama z'ubuhinzi, n'iyandikisha ry'ubucuruzi mu Rwanda.",
+    "example_insurance": "Gerageza: 'Mpa igiciro cy'ubwishingizi bw'imodoka Toyota i Kigali'",
+    "example_tourism": "Gerageza: 'Ntegure urugendo rw'umunsi umwe hafi ya Musanze n'amafaranga 50k RWF'",
+    "example_farming": "Gerageza: 'Nhinga ibigori muri Nyamagabe; nkore iki ukwezi?'",
+    "example_business": "Gerageza: 'Nandikisha nte ubucuruzi bw'umuntu ku giti cye?'",
+    "input_placeholder": "Andika ubutumwa bwawe hano...",
+    "send": "Ohereza",
+    "error": "Ihangane, hari ikibazo. Ongera ugerageze."
+  },
+  "cards": {
+    "insurance_quote": "Igiciro cy'Ubwishingizi",
+    "annual_premium": "Igiciro cy'Umwaka",
+    "coverage": "Ubwishingizi",
+    "request_callback": "Saba Guhamagara",
+    "suggested_itinerary": "Urugendo Rwasabwe",
+    "title": "Umutwe",
+    "duration": "Igihe",
+    "estimated_cost": "Igiciro Giteganijwe",
+    "open_map": "Fungura Ikarita",
+    "farming_tips": "Inama z'Ubuhinzi",
+    "crop": "Igihingwa",
+    "district": "Akarere",
+    "this_month_activities": "Ibikorwa by'Ukwezi",
+    "download_checklist": "Kuramo Urutonde",
+    "business_registration": "Iyandikisha ry'Ubucuruzi",
+    "entity_type": "Ubwoko bw'Ubucuruzi",
+    "steps": "Intambwe",
+    "open_portal": "Fungura Urubuga Rwemewe"
+  }
+}

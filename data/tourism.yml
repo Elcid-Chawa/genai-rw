@@ -1,0 +1,49 @@
+- id: tour_001
+  category: tourism
+  title: "Volcanoes National Park"
+  location: "Musanze"
+  description: "Home to mountain gorillas and golden monkeys. Gorilla trekking permits cost $1,500 USD."
+  cost_range: "1,500 USD"
+  duration: "Full day"
+  tags: ["gorillas", "musanze", "national-park"]
+  language: en
+
+- id: tour_002
+  category: tourism
+  title: "Kigali City Tour"
+  location: "Kigali"
+  description: "Visit Genocide Memorial, local markets, and cultural sites. Budget-friendly option."
+  cost_range: "20,000-50,000 RWF"
+  duration: "Half day"
+  tags: ["kigali", "city", "memorial", "culture"]
+  language: en
+
+- id: tour_003
+  category: tourism
+  title: "Lake Kivu Beaches"
+  location: "Gisenyi/Kibuye"
+  description: "Relax at beautiful lake beaches, water sports, and boat rides."
+  cost_range: "30,000-80,000 RWF"
+  duration: "Full day"
+  tags: ["lake-kivu", "beaches", "water-sports"]
+  language: en
+
+- id: tour_004
+  category: tourism
+  title: "Urugendo rwa Musanze"
+  location: "Musanze"
+  description: "Sura ingagi mu ishyamba rya Volcanoes. Icyemezo gihenze 1,500 USD."
+  cost_range: "1,500 USD"
+  duration: "Umunsi wose"
+  tags: ["ingagi", "musanze", "pariki"]
+  language: rw
+
+- id: tour_005
+  category: tourism
+  title: "Visite de Kigali"
+  location: "Kigali"
+  description: "Visitez le Mémorial du Génocide, les marchés locaux et les sites culturels."
+  cost_range: "20,000-50,000 RWF"
+  duration: "Demi-journée"
+  tags: ["kigali", "mémorial", "culture"]
+  language: fr

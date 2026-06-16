@@ -1,0 +1,54 @@
+- id: farm_001
+  category: farming
+  crop: "maize"
+  district: "Nyamagabe"
+  month: "December"
+  title: "Maize Farming - December Activities"
+  activities: ["Apply NPK fertilizer", "Weed control", "Monitor for fall armyworm", "Prepare for harvest"]
+  tips: "December is harvest preparation time for maize in Nyamagabe. Check moisture content before harvesting."
+  tags: ["maize", "nyamagabe", "december", "harvest"]
+  language: en
+
+- id: farm_002
+  category: farming
+  crop: "beans"
+  district: "Nyamagabe"
+  month: "December"
+  title: "Bean Farming - December Activities"
+  activities: ["Land preparation", "Seed selection", "Planting preparation", "Soil testing"]
+  tips: "Prepare for Season A planting. Select certified seeds and test soil pH."
+  tags: ["beans", "nyamagabe", "december", "planting"]
+  language: en
+
+- id: farm_003
+  category: farming
+  crop: "irish-potatoes"
+  district: "Nyamagabe"
+  month: "December"
+  title: "Irish Potato Farming - December"
+  activities: ["Harvest mature crop", "Storage preparation", "Seed potato selection", "Market planning"]
+  tips: "Harvest when leaves turn yellow. Store in cool, dark place to prevent sprouting."
+  tags: ["potatoes", "nyamagabe", "december", "harvest"]
+  language: en
+
+- id: farm_004
+  category: farming
+  crop: "ibigori"
+  district: "Nyamagabe"
+  month: "Ukuboza"
+  title: "Ubuhinzi bw'Ibigori - Ukuboza"
+  activities: ["Gushira ifumbire", "Kuraguza ibyatsi", "Kurinda udukoko", "Kwihangana ubusabuzi"]
+  tips: "Ukuboza ni igihe cyo kwihangana ubusabuzi bw'ibigori muri Nyamagabe."
+  tags: ["ibigori", "nyamagabe", "ukuboza"]
+  language: rw
+
+- id: farm_005
+  category: farming
+  crop: "maïs"
+  district: "Nyamagabe"
+  month: "Décembre"
+  title: "Culture du Maïs - Activités de Décembre"
+  activities: ["Appliquer l'engrais NPK", "Désherbage", "Surveiller les ravageurs", "Préparer la récolte"]
+  tips: "Décembre est le moment de préparer la récolte du maïs à Nyamagabe."
+  tags: ["maïs", "nyamagabe", "décembre"]
+  language: fr

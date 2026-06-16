@@ -1,0 +1,148 @@
+'use client'
+
+import { Badge } from './ui/badge'
+import { Button } from '@/components/ui/button'
+import {
+  Briefcase,
+  CheckCircle2,
+  Download,
+  ExternalLink,
+  MapPin,
+  Phone,
+  ShieldCheck,
+} from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+
+interface ResponseCardProps {
+  type: string
+  data: any
+}
+
+function Field({ label, value }: { label: string; value: React.ReactNode }) {
+  return (
+    <div className="rounded-md border border-slate-200 bg-slate-50 p-3">
+      <div className="text-xs uppercase tracking-wide text-slate-500">{label}</div>
+      <div className="mt-1 text-sm font-semibold text-slate-900">{value}</div>
+    </div>
+  )
+}
+
+export default function ResponseCard({ type, data }: ResponseCardProps) {
+  const { t } = useTranslation()
+
+  if (type === 'insurance_quote') {
+    return (
+      <div className="rounded-md border border-blue-200 bg-blue-50/70 p-4">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <ShieldCheck className="h-5 w-5 text-blue-700" />
+            <h3 className="text-sm font-semibold text-slate-900">{t('cards.insurance_quote')}</h3>
+          </div>
+          <Badge variant="outline" className="rounded-md border-blue-300 bg-white text-blue-700">
+            Demo quote
+          </Badge>
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <Field label={t('cards.annual_premium')} value={`${data.premium_rwf?.toLocaleString()} RWF`} />
+          <Field label={t('cards.coverage')} value={data.coverage?.third_party_liability} />
+        </div>
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <Button size="sm" className="h-8 bg-slate-950 hover:bg-slate-800">
+            <Phone className="h-4 w-4" />
+            {t('cards.request_callback')}
+          </Button>
+        </div>
+        <p className="mt-3 text-xs leading-5 text-slate-500">{data.disclaimer}</p>
+      </div>
+    )
+  }
+
+  if (type === 'itinerary') {
+    return (
+      <div className="rounded-md border border-emerald-200 bg-emerald-50/70 p-4">
+        <div className="flex items-center gap-2">
+          <MapPin className="h-5 w-5 text-emerald-700" />
+          <h3 className="text-sm font-semibold text-slate-900">{t('cards.suggested_itinerary')}</h3>
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          <Field label={t('cards.title')} value={data.title} />
+          <Field label={t('cards.duration')} value={data.duration} />
+          <Field label={t('cards.estimated_cost')} value={data.estimated_cost} />
+        </div>
+        <div className="mt-4 space-y-2">
+          {data.activities?.map((item: string) => (
+            <div key={item} className="flex items-center gap-2 text-sm text-slate-700">
+              <CheckCircle2 className="h-4 w-4 text-emerald-700" />
+              {item}
+            </div>
+          ))}
+        </div>
+        <Button size="sm" className="mt-4 h-8 bg-slate-950 hover:bg-slate-800">
+          <MapPin className="h-4 w-4" />
+          {t('cards.open_map')}
+        </Button>
+      </div>
+    )
+  }
+
+  if (type === 'farmer_tips') {
+    return (
+      <div className="rounded-md border border-lime-200 bg-lime-50/70 p-4">
+        <div className="flex items-center gap-2">
+          <CheckCircle2 className="h-5 w-5 text-lime-700" />
+          <h3 className="text-sm font-semibold text-slate-900">{t('cards.farming_tips')}</h3>
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <Field label={t('cards.crop')} value={data.crop} />
+          <Field label={t('cards.district')} value={data.district} />
+        </div>
+        <div className="mt-4 rounded-md border border-slate-200 bg-white p-3">
+          <div className="text-xs uppercase tracking-wide text-slate-500">{t('cards.this_month_activities')}</div>
+          <div className="mt-3 space-y-2">
+            {data.month_tips?.map((item: string) => (
+              <div key={item} className="flex items-center gap-2 text-sm text-slate-700">
+                <CheckCircle2 className="h-4 w-4 text-lime-700" />
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+        <Button size="sm" className="mt-4 h-8 bg-slate-950 hover:bg-slate-800">
+          <Download className="h-4 w-4" />
+          {t('cards.download_checklist')}
+        </Button>
+      </div>
+    )
+  }
+
+  if (type === 'biz_steps') {
+    return (
+      <div className="rounded-md border border-violet-200 bg-violet-50/70 p-4">
+        <div className="flex items-center gap-2">
+          <Briefcase className="h-5 w-5 text-violet-700" />
+          <h3 className="text-sm font-semibold text-slate-900">{t('cards.business_registration')}</h3>
+        </div>
+        <div className="mt-4">
+          <Field label={t('cards.entity_type')} value={data.entity_type} />
+        </div>
+        <div className="mt-4 rounded-md border border-slate-200 bg-white p-3">
+          <div className="text-xs uppercase tracking-wide text-slate-500">{t('cards.steps')}</div>
+          <div className="mt-3 space-y-2">
+            {data.steps?.map((item: string) => (
+              <div key={item} className="flex items-start gap-2 text-sm text-slate-700">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-violet-700" />
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+        <Button size="sm" className="mt-4 h-8 bg-slate-950 hover:bg-slate-800">
+          <ExternalLink className="h-4 w-4" />
+          {t('cards.open_portal')}
+        </Button>
+      </div>
+    )
+  }
+
+  return null
+}

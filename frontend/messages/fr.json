@@ -1,0 +1,37 @@
+{
+  "common": {
+    "title": "Assistant IA Rwanda",
+    "welcome": "Bienvenue à l'Assistant IA Rwanda",
+    "description": "Obtenez de l'aide pour l'assurance, le tourisme, l'agriculture et les affaires au Rwanda"
+  },
+  "chat": {
+    "welcome_message": "Bonjour! Je peux vous aider avec les devis d'assurance, la planification touristique, les conseils agricoles et l'enregistrement d'entreprise au Rwanda.",
+    "example_insurance": "Essayez: 'Donnez-moi un devis d'assurance responsabilité civile pour une Toyota à Kigali'",
+    "example_tourism": "Essayez: 'Planifiez une excursion d'une journée près de Musanze avec un budget de 50k RWF'",
+    "example_farming": "Essayez: 'Je cultive du maïs à Nyamagabe; que dois-je faire ce mois-ci?'",
+    "example_business": "Essayez: 'Comment enregistrer une entreprise individuelle?'",
+    "input_placeholder": "Tapez votre message ici...",
+    "send": "Envoyer",
+    "error": "Désolé, quelque chose s'est mal passé. Veuillez réessayer."
+  },
+  "cards": {
+    "insurance_quote": "Devis d'Assurance",
+    "annual_premium": "Prime Annuelle",
+    "coverage": "Couverture",
+    "request_callback": "Demander un Rappel",
+    "suggested_itinerary": "Itinéraire Suggéré",
+    "title": "Titre",
+    "duration": "Durée",
+    "estimated_cost": "Coût Estimé",
+    "open_map": "Ouvrir la Carte",
+    "farming_tips": "Conseils Agricoles",
+    "crop": "Culture",
+    "district": "District",
+    "this_month_activities": "Activités de ce Mois",
+    "download_checklist": "Télécharger la Liste",
+    "business_registration": "Enregistrement d'Entreprise",
+    "entity_type": "Type d'Entité",
+    "steps": "Étapes",
+    "open_portal": "Ouvrir le Portail Officiel"
+  }
+}

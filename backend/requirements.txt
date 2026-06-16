@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pydantic
+python-multipart
+openai
+google-genai
+pyyaml
+python-dotenv
+langdetect

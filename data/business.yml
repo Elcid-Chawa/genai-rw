@@ -1,0 +1,67 @@
+- id: biz_001
+  category: business
+  entity_type: "sole_proprietorship"
+  title: "Sole Proprietorship Registration"
+  steps:
+    - "Visit RDB office or use online portal (rdb.rw)"
+    - "Fill out business registration form"
+    - "Pay registration fee: 2,000 RWF"
+    - "Submit required documents (ID, business plan)"
+    - "Receive certificate within 3-5 business days"
+  fees: "2,000 RWF registration + 1,000 RWF certificate"
+  documents: ["National ID", "Business plan", "Proof of address"]
+  timeline: "3-5 business days"
+  tags: ["registration", "sole-proprietorship", "rdb"]
+  language: en
+
+- id: biz_002
+  category: business
+  entity_type: "limited_company"
+  title: "Limited Company Registration"
+  steps:
+    - "Reserve company name (500 RWF)"
+    - "Prepare memorandum and articles"
+    - "Pay registration fee: 75,000 RWF"
+    - "Submit documents to RDB"
+    - "Receive certificate of incorporation"
+  fees: "75,000 RWF + 500 RWF name reservation"
+  documents: ["Memorandum", "Articles of association", "Directors' details"]
+  timeline: "5-7 business days"
+  tags: ["company", "limited", "incorporation"]
+  language: en
+
+- id: biz_003
+  category: business
+  title: "Business License Requirements"
+  content: "Most businesses need operating licenses from relevant authorities. Trading license from district, professional licenses from regulatory bodies."
+  fees: "Varies by business type (5,000-50,000 RWF)"
+  tags: ["license", "permits", "trading"]
+  language: en
+
+- id: biz_004
+  category: business
+  entity_type: "ubucuruzi_bwite"
+  title: "Kwandikisha Ubucuruzi bw'Umuntu ku Giti Cye"
+  steps:
+    - "Sura ku biro bya RDB cyangwa koresha urubuga (rdb.rw)"
+    - "Uzuza ifishi y'iyandikisha"
+    - "Kwishyura amafaranga: 2,000 RWF"
+    - "Gutanga inyandiko zisabwa"
+    - "Kwakira icyemezo mu minsi 3-5"
+  fees: "2,000 RWF iyandikisha + 1,000 RWF icyemezo"
+  tags: ["iyandikisha", "ubucuruzi", "rdb"]
+  language: rw
+
+- id: biz_005
+  category: business
+  entity_type: "entreprise_individuelle"
+  title: "Enregistrement d'Entreprise Individuelle"
+  steps:
+    - "Visiter le bureau RDB ou utiliser le portail en ligne"
+    - "Remplir le formulaire d'enregistrement"
+    - "Payer les frais: 2,000 RWF"
+    - "Soumettre les documents requis"
+    - "Recevoir le certificat en 3-5 jours"
+  fees: "2,000 RWF enregistrement + 1,000 RWF certificat"
+  tags: ["enregistrement", "entreprise", "rdb"]
+  language: fr

@@ -1,0 +1,34 @@
+- id: ins_001
+  category: insurance
+  title: "Third Party Motor Insurance"
+  content: "Third party motor insurance covers damage to other people's property and injury to third parties. Minimum coverage required by law in Rwanda."
+  tags: ["motor", "third-party", "liability"]
+  language: en
+
+- id: ins_002
+  category: insurance
+  title: "Motor Insurance Claims Process"
+  content: "To claim motor insurance: 1) Report accident to police, 2) Contact insurer within 24 hours, 3) Submit claim form with documents, 4) Wait for assessment."
+  tags: ["claims", "process", "motor"]
+  language: en
+
+- id: ins_003
+  category: insurance
+  title: "Vehicle Insurance Requirements"
+  content: "All vehicles in Rwanda must have valid third-party insurance. Penalties for driving without insurance include fines and vehicle impoundment."
+  tags: ["requirements", "law", "penalties"]
+  language: en
+
+- id: ins_004
+  category: insurance
+  title: "Ubwishingizi bw'Imodoka"
+  content: "Ubwishingizi bw'imodoka ni ngombwa mu Rwanda. Bugomba gufata ubwoba bw'abandi bantu n'imitungo yabo."
+  tags: ["imodoka", "ubwishingizi", "amategeko"]
+  language: rw
+
+- id: ins_005
+  category: insurance
+  title: "Assurance Automobile"
+  content: "L'assurance automobile est obligatoire au Rwanda. Elle doit couvrir la responsabilité civile envers les tiers."
+  tags: ["automobile", "assurance", "obligatoire"]
+  language: fr
