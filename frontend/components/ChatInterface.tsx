@@ -80,7 +80,8 @@ export default function ChatInterface({
       model: string
       history: Array<{ role: 'user' | 'assistant'; content: string }>
     }) => {
-      const response = await fetch('http://localhost:8000/chat', {
+      const api = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000" ;
+      const response = await fetch(api + '/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
