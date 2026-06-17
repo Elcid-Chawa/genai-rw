@@ -4,8 +4,9 @@
 
 - Node.js 18+
 - Python 3.8+
-- OpenAI API key for generated answers
-- Gemini API key if you want to use Google Gemini models
+- Gemini API key for generated answers
+- OpenAI API key if you want to test OpenAI models
+- MongoDB running locally or a MongoDB Atlas connection string for evaluation logs
 
 ## Backend Setup
 
@@ -21,10 +22,10 @@ Copy-Item .env.example .env
 Edit `backend/.env` and set:
 
 ```dotenv
-OPENAI_API_KEY=your_actual_api_key_here
-OPENAI_MODEL=gpt-4o-mini
 GEMINI_API_KEY=your_actual_gemini_api_key_here
 GEMINI_MODEL=gemini-2.5-flash
+OPENAI_API_KEY=your_actual_openai_api_key_here
+OPENAI_MODEL=gpt-4o-mini
 MONGODB_URL=mongodb://localhost:27017
 DATABASE_NAME=genai_rw
 ```
@@ -35,7 +36,7 @@ Start the backend:
 .\.venv\Scripts\python.exe -m uvicorn main:app --reload
 ```
 
-Backend runs on http://localhost:8000.
+Backend runs on http://localhost:5000.
 
 ## Frontend Setup
 
@@ -49,11 +50,11 @@ npm.cmd run dev
 
 Use `npm.cmd` in PowerShell if script execution policy blocks `npm.ps1`.
 
-Frontend runs on http://localhost:3000.
+Frontend runs on http://localhost:3008.
 
 ## Testing the Application
 
-Open http://localhost:3000 and try:
+Open http://localhost:3008 and try:
 
 **English**
 
@@ -61,6 +62,7 @@ Open http://localhost:3000 and try:
 - "Plan a 1-day tour near Musanze on a 50k RWF budget"
 - "I grow maize in Nyamagabe; what should I do this month?"
 - "How do I register a sole proprietorship?"
+- "Explain how a user with low literacy can access public services online"
 
 **French**
 
@@ -75,10 +77,11 @@ Open http://localhost:3000 and try:
 ## Implemented Features
 
 - Multilingual support (EN/FR/RW)
-- Insurance quote calculator
-- Tourism itinerary suggestions
+- Insurance quote calculator and quotation workflow
+- Tourism walkthrough support
 - Farming advice by district/crop
-- Business registration guidance
+- Business registration guidance and prefilled form drafts
+- Accessibility support
 - Smart response cards
 - Language detection
 - Knowledge base search
@@ -87,6 +90,16 @@ Open http://localhost:3000 and try:
 ## Notes
 
 - The old `backend/venv` directory may point to a stale Python installation. Use `backend/.venv` for new setup.
-- The model picker supports OpenAI models and Gemini models. Gemini selections require `GEMINI_API_KEY`.
-- MongoDB settings are present for future session storage, but the current backend does not require MongoDB to start.
+- The backend chat service supports Gemini and OpenAI. Gemini remains the default; OpenAI models require `OPENAI_API_KEY` and active quota/billing.
+- MongoDB stores interaction logs, feedback, and evaluation metrics. The app can still answer if MongoDB is down, but `/metrics/summary` will report that MongoDB is not reachable.
+- Service delivery endpoints:
+  - `POST /services/quote/insurance`
+  - `GET /services/business/requirements`
+  - `POST /services/business/prefill`
+  - `POST /services/agriculture/plan`
+  - `GET /services/{service}/walkthrough`
+- Evaluation endpoints:
+  - `GET /metrics/summary`
+  - `GET /logs?limit=25`
+  - `POST /feedback`
 - npm may report dependency audit findings. Review those separately before production deployment.
