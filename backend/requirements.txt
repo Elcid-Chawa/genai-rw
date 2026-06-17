@@ -4,6 +4,7 @@ pydantic
 python-multipart
 openai
 google-genai
+pymongo
 pyyaml
 python-dotenv
 langdetect
