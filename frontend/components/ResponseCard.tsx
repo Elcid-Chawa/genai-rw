@@ -1,5 +1,6 @@
 'use client'
 
+import type React from 'react'
 import { Badge } from './ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -7,6 +8,7 @@ import {
   CheckCircle2,
   Download,
   ExternalLink,
+  FileText,
   MapPin,
   Phone,
   ShieldCheck,
@@ -29,6 +31,76 @@ function Field({ label, value }: { label: string; value: React.ReactNode }) {
 
 export default function ResponseCard({ type, data }: ResponseCardProps) {
   const { t } = useTranslation()
+
+  if (type === 'general' && data?.tool_context && Object.keys(data.tool_context).length > 0) {
+    return (
+      <div className="space-y-3">
+        {data.tool_context.insurance_quote && (
+          <ServiceCard title="Generated insurance quote" tone="blue" icon={<ShieldCheck className="h-5 w-5 text-blue-700" />}>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Field
+                label="Annual premium"
+                value={`${data.tool_context.insurance_quote.quote.premium_rwf?.toLocaleString()} RWF`}
+              />
+              <Field label="Location" value={data.tool_context.insurance_quote.input.location} />
+            </div>
+            <StepList steps={data.tool_context.insurance_quote.next_steps} />
+            <p className="mt-3 text-xs text-slate-500">{data.tool_context.insurance_quote.quote.disclaimer}</p>
+          </ServiceCard>
+        )}
+
+        {data.tool_context.business_requirements && (
+          <ServiceCard title="Business registration walkthrough" tone="violet" icon={<Briefcase className="h-5 w-5 text-violet-700" />}>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Field label="Entity type" value={data.tool_context.business_requirements.entity_type} />
+              <Field label="Timeline" value={data.tool_context.business_requirements.timeline} />
+            </div>
+            <StepList steps={data.tool_context.business_requirements.steps?.map((step: any) => step.title)} />
+          </ServiceCard>
+        )}
+
+        {data.tool_context.prefilled_form && (
+          <ServiceCard title="Prefilled registration draft" tone="violet" icon={<FileText className="h-5 w-5 text-violet-700" />}>
+            <div className="grid gap-2 sm:grid-cols-2">
+              {Object.entries(data.tool_context.prefilled_form.fields || {}).map(([key, value]) => (
+                <Field key={key} label={key.replace(/_/g, ' ')} value={String(value || 'Missing')} />
+              ))}
+            </div>
+            {data.tool_context.prefilled_form.missing_fields?.length ? (
+              <p className="mt-3 text-xs font-medium text-amber-700">
+                Missing: {data.tool_context.prefilled_form.missing_fields.join(', ')}
+              </p>
+            ) : null}
+          </ServiceCard>
+        )}
+
+        {data.tool_context.agriculture_plan && (
+          <ServiceCard title="Agriculture action plan" tone="lime" icon={<CheckCircle2 className="h-5 w-5 text-lime-700" />}>
+            <div className="grid gap-3 sm:grid-cols-3">
+              <Field label="Crop" value={data.tool_context.agriculture_plan.crop} />
+              <Field label="District" value={data.tool_context.agriculture_plan.district} />
+              <Field label="Month" value={data.tool_context.agriculture_plan.month} />
+            </div>
+            <StepList steps={data.tool_context.agriculture_plan.steps?.map((step: any) => step.title)} />
+            <p className="mt-3 text-xs text-slate-600">{data.tool_context.agriculture_plan.tips}</p>
+          </ServiceCard>
+        )}
+
+        {data.tool_context.tourism_walkthrough && (
+          <ServiceCard title="Tourism service walkthrough" tone="emerald" icon={<MapPin className="h-5 w-5 text-emerald-700" />}>
+            <StepList steps={data.tool_context.tourism_walkthrough.steps?.map((step: any) => step.title)} />
+          </ServiceCard>
+        )}
+
+        {data.tool_context.accessibility_walkthrough && (
+          <ServiceCard title="Accessibility walkthrough" tone="amber" icon={<CheckCircle2 className="h-5 w-5 text-amber-700" />}>
+            <StepList steps={data.tool_context.accessibility_walkthrough.steps?.map((step: any) => step.title)} />
+            <p className="mt-3 text-xs text-slate-600">Use this to simplify procedures for users with low literacy, disability, or limited connectivity.</p>
+          </ServiceCard>
+        )}
+      </div>
+    )
+  }
 
   if (type === 'insurance_quote') {
     return (
@@ -145,4 +217,49 @@ export default function ResponseCard({ type, data }: ResponseCardProps) {
   }
 
   return null
+}
+
+function ServiceCard({
+  title,
+  tone,
+  icon,
+  children,
+}: {
+  title: string
+  tone: 'blue' | 'violet' | 'lime' | 'emerald' | 'amber'
+  icon: React.ReactNode
+  children: React.ReactNode
+}) {
+  const classes = {
+    blue: 'border-blue-200 bg-blue-50/70',
+    violet: 'border-violet-200 bg-violet-50/70',
+    lime: 'border-lime-200 bg-lime-50/70',
+    emerald: 'border-emerald-200 bg-emerald-50/70',
+    amber: 'border-amber-200 bg-amber-50/70',
+  }
+
+  return (
+    <div className={`rounded-md border p-4 ${classes[tone]}`}>
+      <div className="mb-4 flex items-center gap-2">
+        {icon}
+        <h3 className="text-sm font-semibold text-slate-900">{title}</h3>
+      </div>
+      {children}
+    </div>
+  )
+}
+
+function StepList({ steps }: { steps?: string[] }) {
+  if (!steps?.length) return null
+
+  return (
+    <div className="mt-4 space-y-2">
+      {steps.map((step, index) => (
+        <div key={`${step}-${index}`} className="flex items-start gap-2 text-sm text-slate-700">
+          <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-slate-600" />
+          <span>{step}</span>
+        </div>
+      ))}
+    </div>
+  )
 }

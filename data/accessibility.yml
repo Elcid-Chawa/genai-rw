@@ -1,0 +1,20 @@
+- id: acc_001
+  category: accessibility
+  title: Digital Service Accessibility Guidance
+  content: "Users with low literacy, disability, or limited connectivity should receive public-service instructions in simple language, with step-by-step guidance and alternatives such as assisted service centers where available."
+  tags: ["accessibility", "public-services", "digital-inclusion"]
+  language: en
+
+- id: acc_002
+  category: accessibility
+  title: Inclusive Multilingual Support
+  content: "Public service guidance should be available in Kinyarwanda, English, and French. Complex procedures should be simplified and explained with clear next steps."
+  tags: ["multilingual", "inclusion", "kinyarwanda"]
+  language: en
+
+- id: acc_003
+  category: accessibility
+  title: Ubufasha mu Gukoresha Serivisi z'Ikoranabuhanga
+  content: "Abakoresha bafite ubumenyi buke, ubumuga, cyangwa interineti nke bagomba guhabwa amabwiriza yoroshye, intambwe ku yindi, no kugirwa inama aho bashobora kubona ubufasha."
+  tags: ["ubufasha", "serivisi", "ikoranabuhanga"]
+  language: rw

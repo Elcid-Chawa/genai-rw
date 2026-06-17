@@ -16,6 +16,7 @@ import {
   Settings,
   ShieldCheck,
   Sparkles,
+  Accessibility,
   X,
 } from 'lucide-react'
 import {
@@ -30,7 +31,7 @@ import { Button } from '@/components/ui/button'
 import { useTranslation } from 'react-i18next'
 import ChatInterface, { Message } from '../components/ChatInterface'
 
-type AgentId = 'general' | 'business' | 'tourism' | 'insurance' | 'farming'
+type AgentId = 'general' | 'business' | 'tourism' | 'insurance' | 'farming' | 'accessibility'
 
 interface ChatSession {
   id: string
@@ -96,6 +97,17 @@ const agents = [
     accent: 'text-lime-700 bg-lime-50 border-lime-100',
     active: 'bg-lime-600 text-white border-lime-600',
   },
+  {
+    id: 'accessibility',
+    name: 'Accessibility Support',
+    label: 'Inclusive Services Desk',
+    welcome: 'Welcome to Accessibility Support. I can simplify service steps and suggest inclusive access options.',
+    source: 'Rwanda digital accessibility and public-service inclusion guidance',
+    description: 'Simpler steps, inclusive access, and multilingual service guidance.',
+    icon: Accessibility,
+    accent: 'text-amber-700 bg-amber-50 border-amber-100',
+    active: 'bg-amber-600 text-white border-amber-600',
+  },
 ] as const
 
 const models = [
@@ -112,6 +124,7 @@ const starterPrompts = [
   'Plan a 1-day tour near Musanze on a 50k RWF budget',
   'Get me a third-party motor quote for a Toyota in Kigali',
   'I grow maize in Nyamagabe; what should I do this month?',
+  'Explain how a user with low literacy can access public services online',
 ]
 
 function newSession(agent: AgentId = 'general'): ChatSession {
