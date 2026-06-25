@@ -6,8 +6,10 @@ from google.genai import types
 from langdetect import detect
 from openai import AuthenticationError, OpenAI, RateLimitError
 
+from .automation_service import ServiceAutomationService
 from .kb_service import KnowledgeBaseService
 from .quote_service import QuoteService
+from .tourism_regulation_service import TourismRegulationService
 from .workflow_service import WorkflowService
 
 
@@ -67,6 +69,8 @@ class ChatService:
         self.gemini_client = genai.Client(api_key=gemini_api_key) if gemini_api_key else None
         self.gemini_model = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
         self.kb_service = KnowledgeBaseService()
+        self.automation_service = ServiceAutomationService()
+        self.tourism_regulation_service = TourismRegulationService()
         self.quote_service = QuoteService()
         self.workflow_service = WorkflowService(self.kb_service)
 
@@ -86,6 +90,24 @@ class ChatService:
 
         kb_results = await self.kb_service.search(message, language)
         tool_context = await self._tool_context(message, agent, language)
+        automation_context = tool_context.get("automation")
+        tourism_entities_context = tool_context.get("tourism_entities")
+
+        if automation_context or tourism_entities_context:
+            return {
+                "message": self._service_message(tool_context, language),
+                "type": "automation" if automation_context else "service_lookup",
+                "data": {
+                    "automation": automation_context,
+                    "tourism_entities": tourism_entities_context,
+                    "sources": kb_results,
+                    "default_source": self._service_source(tool_context, agent),
+                    "tool_context": tool_context,
+                    "model": selected_model,
+                    "provider": provider,
+                },
+                "language": language,
+            }
 
         if provider == "gemini" and not self.gemini_client:
             return {
@@ -316,6 +338,26 @@ Keep responses helpful, professional, and clear.
 
     async def _tool_context(self, message: str, agent: str, language: str) -> Dict[str, Any]:
         message_lower = message.lower()
+        context: Dict[str, Any] = {}
+        automation = await self.automation_service.match(message, agent, language)
+
+        if automation:
+            context["automation"] = automation
+
+        if agent in ["general", "tourism"]:
+            force_tourism_lookup = agent == "tourism" and any(
+                term in message_lower
+                for term in ["licensed", "licenced", "registry", "registered", "verify", "check"]
+            )
+            tourism_entities = self.tourism_regulation_service.search_licensed_entities(
+                message,
+                force=force_tourism_lookup,
+            )
+            if tourism_entities:
+                context["tourism_entities"] = tourism_entities
+
+        if context:
+            return context
 
         if agent == "insurance" and self._is_insurance_quote_query(message):
             return {
@@ -396,3 +438,129 @@ Keep responses helpful, professional, and clear.
                 district = candidate.title()
 
         return {"crop": crop, "district": district}
+
+    def _service_message(self, tool_context: Dict[str, Any], language: str) -> str:
+        sections = []
+        if tool_context.get("automation"):
+            sections.append(self._automation_message(tool_context["automation"], language))
+        if tool_context.get("tourism_entities"):
+            sections.append(self._tourism_entities_message(tool_context["tourism_entities"], language))
+        return "\n\n".join(section for section in sections if section)
+
+    def _service_source(self, tool_context: Dict[str, Any], agent: str) -> str:
+        automation = tool_context.get("automation")
+        if automation and automation.get("source"):
+            return automation["source"]
+        tourism_entities = tool_context.get("tourism_entities")
+        if tourism_entities and tourism_entities.get("source_url"):
+            return tourism_entities["source_url"]
+        return TABS_CONFIG[agent]["default_source"]
+
+    def _automation_message(self, automation: Dict[str, Any], language: str) -> str:
+        phrases = {
+            "en": {
+                "missing": "To continue the service automation, I need:",
+                "ready": "I can now prepare the next service steps.",
+                "key_checks": "Key checks:",
+                "next": "Next actions:",
+                "source": "Source",
+            },
+            "fr": {
+                "missing": "Pour continuer l'automatisation du service, j'ai besoin de:",
+                "ready": "Je peux maintenant preparer les prochaines etapes du service.",
+                "key_checks": "Points cles:",
+                "next": "Prochaines actions:",
+                "source": "Source",
+            },
+            "rw": {
+                "missing": "Kugira ngo dukomeze iyi serivisi, ndakeneye:",
+                "ready": "Ubu nshobora gutegura intambwe zikurikira.",
+                "key_checks": "Ibyo kwitaho:",
+                "next": "Ibikurikira:",
+                "source": "Inkomoko",
+            },
+        }
+        copy = phrases.get(language, phrases["en"])
+        lines = [str(automation.get("title", "Service automation"))]
+
+        if automation.get("summary"):
+            lines.append(str(automation["summary"]))
+
+        if automation.get("facts"):
+            lines.append("")
+            lines.append(copy["key_checks"])
+            lines.extend([f"- {fact}" for fact in automation["facts"][:4]])
+
+        lines.append("")
+        if automation.get("missing_fields"):
+            lines.append(copy["missing"])
+            for field in automation["missing_fields"]:
+                lines.append(f"- {field.get('prompt')}")
+        else:
+            lines.append(automation.get("ready_message") or copy["ready"])
+
+        if automation.get("next_actions"):
+            lines.append("")
+            lines.append(copy["next"])
+            lines.extend([f"- {action}" for action in automation["next_actions"][:4]])
+
+        source = automation.get("source")
+        reviewed = automation.get("last_reviewed")
+        if source:
+            reviewed_text = f", reviewed {reviewed}" if reviewed else ""
+            lines.append("")
+            lines.append(f"{copy['source']}: {source}{reviewed_text}")
+
+        return "\n".join(lines)
+
+    def _tourism_entities_message(self, lookup: Dict[str, Any], language: str) -> str:
+        phrases = {
+            "en": {
+                "title": "Licensed tourism entity lookup",
+                "matches": "Top matches:",
+                "none": "I could not find a matching licensed tourism entity in the cached official registry.",
+                "source": "Source",
+            },
+            "fr": {
+                "title": "Recherche d'entites touristiques licenciees",
+                "matches": "Meilleurs resultats:",
+                "none": "Je n'ai pas trouve de correspondance dans le registre officiel mis en cache.",
+                "source": "Source",
+            },
+            "rw": {
+                "title": "Gushaka ibigo by'ubukerarugendo bifite uruhushya",
+                "matches": "Ibisubizo bya mbere:",
+                "none": "Nta kigo gihuye nabonye muri kopi y'urutonde rwemewe.",
+                "source": "Inkomoko",
+            },
+        }
+        copy = phrases.get(language, phrases["en"])
+        lines = [copy["title"]]
+        message = lookup.get("message")
+        if message:
+            lines.append(str(message))
+
+        matches = lookup.get("matches", [])
+        if matches:
+            lines.append("")
+            lines.append(copy["matches"])
+            for entity in matches[:5]:
+                location = ", ".join(
+                    part for part in [entity.get("district"), entity.get("province")] if part
+                )
+                lines.append(
+                    f"- {entity.get('name')} ({entity.get('sub_category') or entity.get('category')}, "
+                    f"{entity.get('status')}, {location})"
+                )
+        else:
+            lines.append("")
+            lines.append(copy["none"])
+
+        source = lookup.get("source_url")
+        synced = lookup.get("last_synced")
+        if source:
+            synced_text = f", synced {synced}" if synced else ""
+            lines.append("")
+            lines.append(f"{copy['source']}: {source}{synced_text}")
+
+        return "\n".join(lines)

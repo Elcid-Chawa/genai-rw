@@ -32,9 +32,29 @@ function Field({ label, value }: { label: string; value: React.ReactNode }) {
 export default function ResponseCard({ type, data }: ResponseCardProps) {
   const { t } = useTranslation()
 
+  if ((type === 'automation' || type === 'service_lookup') && (data?.automation || data?.tourism_entities || data?.tool_context)) {
+    return (
+      <div className="space-y-3">
+        {data.automation ? <AutomationCard automation={data.automation} /> : null}
+        {data.tourism_entities ? <TourismEntitiesCard lookup={data.tourism_entities} /> : null}
+        {data.tool_context?.tourism_entities && !data.tourism_entities ? (
+          <TourismEntitiesCard lookup={data.tool_context.tourism_entities} />
+        ) : null}
+      </div>
+    )
+  }
+
   if (type === 'general' && data?.tool_context && Object.keys(data.tool_context).length > 0) {
     return (
       <div className="space-y-3">
+        {data.tool_context.automation && (
+          <AutomationCard automation={data.tool_context.automation} />
+        )}
+
+        {data.tool_context.tourism_entities && (
+          <TourismEntitiesCard lookup={data.tool_context.tourism_entities} />
+        )}
+
         {data.tool_context.insurance_quote && (
           <ServiceCard title="Generated insurance quote" tone="blue" icon={<ShieldCheck className="h-5 w-5 text-blue-700" />}>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -217,6 +237,152 @@ export default function ResponseCard({ type, data }: ResponseCardProps) {
   }
 
   return null
+}
+
+function AutomationCard({ automation }: { automation: any }) {
+  const tone: 'blue' | 'violet' | 'emerald' =
+    automation.category === 'insurance' ? 'blue' : automation.category === 'tourism' ? 'emerald' : 'violet'
+  const iconColor =
+    automation.category === 'insurance' ? 'text-blue-700' : automation.category === 'tourism' ? 'text-emerald-700' : 'text-violet-700'
+  const statusLabel = automation.status === 'ready' ? 'Ready' : 'Needs input'
+  const link = automation.official_url || automation.portal_url
+
+  return (
+    <ServiceCard title={automation.title || 'Service automation'} tone={tone} icon={<FileText className={`h-5 w-5 ${iconColor}`} />}>
+      <div className="mb-3 flex flex-wrap items-center gap-2">
+        <Badge variant="outline" className="rounded-md bg-white text-[10px] uppercase tracking-wide">
+          {statusLabel}
+        </Badge>
+        {automation.last_reviewed ? (
+          <span className="text-xs font-medium text-slate-500">Reviewed {automation.last_reviewed}</span>
+        ) : null}
+      </div>
+
+      {automation.summary ? (
+        <p className="text-sm leading-6 text-slate-700">{automation.summary}</p>
+      ) : null}
+
+      {automation.collected_fields?.length ? (
+        <div className="mt-4 grid gap-2 sm:grid-cols-2">
+          {automation.collected_fields.map((field: any) => (
+            <Field key={field.id} label={field.label} value={String(field.value)} />
+          ))}
+        </div>
+      ) : null}
+
+      {automation.missing_fields?.length ? (
+        <div className="mt-4 rounded-md border border-amber-200 bg-white p-3">
+          <div className="text-xs font-bold uppercase tracking-wide text-amber-700">Required details</div>
+          <div className="mt-3 space-y-3">
+            {automation.missing_fields.map((field: any) => (
+              <div key={field.id} className="text-sm text-slate-700">
+                <p className="font-semibold">{field.prompt}</p>
+                {field.options?.length ? (
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {field.options.map((option: any) => (
+                      <span key={option.id} className="rounded-md border border-slate-200 bg-slate-50 px-2 py-1 text-xs font-medium text-slate-600">
+                        {option.label}
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      <StepList steps={automation.steps} />
+
+      {automation.next_actions?.length ? (
+        <div className="mt-4 rounded-md border border-slate-200 bg-white p-3">
+          <div className="text-xs font-bold uppercase tracking-wide text-slate-500">Next actions</div>
+          <StepList steps={automation.next_actions} />
+        </div>
+      ) : null}
+
+      {link ? (
+        <a
+          href={link}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-4 inline-flex h-8 items-center gap-2 rounded-md bg-slate-950 px-3 text-xs font-semibold text-white transition hover:bg-slate-800"
+        >
+          <ExternalLink className="h-4 w-4" />
+          Open official page
+        </a>
+      ) : null}
+
+      {automation.source ? (
+        <p className="mt-3 text-xs leading-5 text-slate-500">Source: {automation.source}</p>
+      ) : null}
+    </ServiceCard>
+  )
+}
+
+function TourismEntitiesCard({ lookup }: { lookup: any }) {
+  const matches = lookup.matches || []
+
+  return (
+    <ServiceCard title={lookup.title || 'Licensed tourism entity lookup'} tone="emerald" icon={<ShieldCheck className="h-5 w-5 text-emerald-700" />}>
+      <div className="grid gap-3 sm:grid-cols-3">
+        <Field label="Status" value={lookup.status || 'unknown'} />
+        <Field label="Cached records" value={lookup.total_cached?.toLocaleString?.() || lookup.total_cached || '0'} />
+        <Field label="Last synced" value={lookup.last_synced ? String(lookup.last_synced).slice(0, 10) : 'Not synced'} />
+      </div>
+
+      {lookup.message ? (
+        <p className="mt-3 text-sm leading-6 text-slate-700">{lookup.message}</p>
+      ) : null}
+
+      {matches.length ? (
+        <div className="mt-4 space-y-2">
+          {matches.slice(0, 6).map((entity: any) => (
+            <div key={`${entity.name}-${entity.profile_url}`} className="rounded-md border border-slate-200 bg-white p-3">
+              <div className="flex flex-wrap items-start justify-between gap-2">
+                <div>
+                  <p className="text-sm font-bold text-slate-900">{entity.name}</p>
+                  <p className="mt-1 text-xs leading-5 text-slate-600">
+                    {entity.sub_category || entity.category} - {entity.district}, {entity.province}
+                  </p>
+                </div>
+                <Badge variant="outline" className="rounded-md bg-emerald-50 text-[10px] uppercase tracking-wide text-emerald-700">
+                  {entity.status || 'Listed'}
+                </Badge>
+              </div>
+              {entity.profile_url ? (
+                <a
+                  href={entity.profile_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 hover:text-emerald-800"
+                >
+                  <ExternalLink className="h-3.5 w-3.5" />
+                  Registry profile
+                </a>
+              ) : null}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="mt-4 rounded-md border border-amber-200 bg-white p-3 text-sm text-slate-700">
+          No matching licensed entity was found in the cached registry.
+        </p>
+      )}
+
+      {lookup.source_url ? (
+        <a
+          href={lookup.source_url}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-4 inline-flex h-8 items-center gap-2 rounded-md bg-slate-950 px-3 text-xs font-semibold text-white transition hover:bg-slate-800"
+        >
+          <ExternalLink className="h-4 w-4" />
+          Open official registry
+        </a>
+      ) : null}
+    </ServiceCard>
+  )
 }
 
 function ServiceCard({

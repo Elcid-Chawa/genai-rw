@@ -21,6 +21,8 @@ class KnowledgeBaseService:
                 try:
                     with open(filepath, 'r', encoding='utf-8') as file:
                         data = yaml.safe_load(file)
+                        if isinstance(data, dict) and data.get("kind") == "service_automation_config":
+                            continue
                         if isinstance(data, list):
                             kb_data.extend(data)
                         elif isinstance(data, dict):

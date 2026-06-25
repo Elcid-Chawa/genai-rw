@@ -10,6 +10,7 @@ from services.chat_service import ChatService
 from services.quote_service import QuoteService
 from services.kb_service import KnowledgeBaseService
 from services.log_service import LogService
+from services.tourism_regulation_service import TourismRegulationService
 from services.workflow_service import WorkflowService
 
 load_dotenv()
@@ -31,6 +32,7 @@ quote_service = QuoteService()
 kb_service = KnowledgeBaseService()
 log_service = LogService()
 workflow_service = WorkflowService(kb_service)
+tourism_regulation_service = TourismRegulationService()
 
 @app.on_event("startup")
 async def startup():
@@ -146,6 +148,14 @@ async def agriculture_plan(request: AgriculturePlanRequest):
 async def service_walkthrough(service: str, language: str = "en"):
     try:
         return await workflow_service.service_walkthrough(service, language)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/services/tourism/entities/search")
+async def tourism_entities_search(query: str, limit: int = 8):
+    try:
+        result = tourism_regulation_service.search_licensed_entities(query, limit, force=True)
+        return result or {"status": "no_match", "matches": []}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

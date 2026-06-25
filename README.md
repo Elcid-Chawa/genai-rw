@@ -36,3 +36,7 @@ npm run dev
 - Farming advice
 - Business registration guidance
 - RAG-powered responses with citations
+- YAML-driven service automation for deterministic service triage and next steps
+- Official tourism license/entity lookup using a cached RDB Tourism Regulation registry sync
+
+See `SERVICE_AUTOMATION.md` for the automation YAML structure.

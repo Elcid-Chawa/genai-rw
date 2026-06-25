@@ -1,0 +1,121 @@
+- id: tour_license_001
+  category: tourism
+  topic: tourism_operating_license
+  title: Tourism Operating License Overview
+  content: "Tourism entities in Rwanda apply for a tourism operating license through the RDB Tourism Regulation portal. The platform provides license application services and access to licensed and graded tourism entities."
+  fee: "RWF 80,000 non-refundable application fee"
+  timeline: "RDB processes a complete license application within 15 days, subject to missing documents or inspection corrections."
+  validity: "The tourism operating license does not expire, but entities must pass annual inspections to maintain it."
+  source: "RDB Tourism Regulation FAQ"
+  source_url: "https://tourismregulation.rw/en/faqs/"
+  last_reviewed: "2026-06-20"
+  tags: ["tourism", "license", "rdb", "operating-license"]
+  language: en
+
+- id: tour_license_002
+  category: tourism
+  topic: eligible_tourism_entities
+  title: Eligible Tourism Entity Categories
+  content: "Owners or operators of accommodation establishments, restaurants, bars, nightclubs, tour operators, tour guides, travel agents, tourism information centers, museums, and cultural tourism entities can apply for a tourism operating license."
+  entity_types:
+    - accommodation
+    - restaurant_bar_nightclub
+    - tour_operator
+    - travel_agent
+    - tour_guide
+    - tourism_information_center
+    - cultural_tourism_museum
+  source: "RDB Tourism Regulation FAQ"
+  source_url: "https://tourismregulation.rw/en/faqs/"
+  last_reviewed: "2026-06-20"
+  tags: ["tourism", "entity-types", "license", "eligibility"]
+  language: en
+
+- id: tour_license_003
+  category: tourism
+  topic: tourism_license_process
+  title: Tourism License Application Process
+  steps:
+    - "Register or log in on the RDB Tourism Regulation portal."
+    - "Select the correct tourism entity category."
+    - "Complete the online application."
+    - "Upload the required supporting documents for the entity type."
+    - "Pay the non-refundable application fee."
+    - "Prepare for inspection by an authorized RDB inspector."
+    - "Fix any missing documents or inspection issues if RDB requests corrections."
+    - "Receive the operating license after approval."
+  source: "RDB Tourism Regulation FAQ"
+  source_url: "https://tourismregulation.rw/en/faqs/"
+  last_reviewed: "2026-06-20"
+  tags: ["tourism", "license", "application", "inspection"]
+  language: en
+
+- id: tour_license_004
+  category: tourism
+  topic: tourism_license_documents
+  title: Tourism License Document Resources
+  content: "The RDB Tourism Regulation Resources page provides official document checklists, self-evaluation forms, interpretation of requirements, inspection checklists, laws, policies, and the tourism licensing user manual."
+  document_checklists:
+    accommodation: "https://tourismregulation.rw/static/docs/uploads/document_checklists/Town%20Hotel%2C%20Vacation%20Hotel%20%28Resort%29%2C%20Villa%2C%20Cottage%2C%20Serviced%20Apartments%20or%20Motel%20-%20Document%20Checklist.pdf"
+    restaurant_bar_nightclub: "https://tourismregulation.rw/static/docs/uploads/document_checklists/Restaurants%2C%20bars%20and%20nightclubs%20-%20Document%20Checklist.pdf"
+    tour_operator: "https://tourismregulation.rw/static/docs/uploads/document_checklists/Tour%20Operator%20-%20Document%20checklist.pdf"
+    travel_agent: "https://tourismregulation.rw/static/docs/uploads/document_checklists/Travel%20Agent%20-%20Document%20checklist.pdf"
+    tour_guide: "https://tourismregulation.rw/static/docs/uploads/document_checklists/Tour%20Guide%20-%20Document%20checklist.pdf"
+    tourism_information_center: "https://tourismregulation.rw/static/docs/uploads/document_checklists/Tourism%20Information%20Center%20-%20Document%20checklist.pdf"
+  source: "RDB Tourism Regulation Resources"
+  source_url: "https://tourismregulation.rw/en/web/1/"
+  last_reviewed: "2026-06-20"
+  tags: ["tourism", "documents", "checklist", "requirements"]
+  language: en
+
+- id: tour_dest_001
+  category: tourism
+  topic: destination
+  title: Volcanoes National Park
+  location: "Northwest Rwanda"
+  description: "Volcanoes National Park protects the slopes of the Virunga Massif and is known for endangered mountain gorillas, golden monkeys, montane ecosystems, bamboo forest, grassland, swamp, and heath."
+  best_for: ["gorilla trekking", "golden monkeys", "volcano hiking", "conservation tourism"]
+  source: "Visit Rwanda"
+  source_url: "https://visitrwanda.com/destinations/volcanoes-national-park/"
+  last_reviewed: "2026-06-20"
+  tags: ["volcanoes", "gorillas", "national-park", "musanze"]
+  language: en
+
+- id: tour_dest_002
+  category: tourism
+  topic: destination
+  title: Akagera National Park
+  location: "Eastern Rwanda"
+  description: "Akagera National Park features savannah, woodland, wetland, lakes, and safari experiences. Visit Rwanda highlights the reintroduction of lions and rhinos and Big Five safari potential."
+  best_for: ["safari", "game drives", "birds", "lakes", "big five"]
+  source: "Visit Rwanda"
+  source_url: "https://visitrwanda.com/tourism/destinations/national-parks/"
+  last_reviewed: "2026-06-20"
+  tags: ["akagera", "safari", "national-park", "wildlife"]
+  language: en
+
+- id: tour_dest_003
+  category: tourism
+  topic: destination
+  title: Nyungwe National Park
+  location: "Southwest Rwanda"
+  description: "Nyungwe is one of Africa's oldest rainforests, rich in biodiversity, with chimpanzees, other primates, birds, and rainforest experiences."
+  best_for: ["chimpanzee tracking", "canopy walk", "rainforest", "birding", "primates"]
+  source: "Visit Rwanda"
+  source_url: "https://visitrwanda.com/tourism/destinations/national-parks/"
+  last_reviewed: "2026-06-20"
+  tags: ["nyungwe", "chimpanzees", "rainforest", "national-park"]
+  language: en
+
+- id: tour_dest_004
+  category: tourism
+  topic: destination
+  title: Lake Kivu
+  location: "Western Rwanda"
+  description: "Lake Kivu is known for islands, inlets, beach resorts, scenic lake views, hiking, cycling, and rest stops after gorilla trekking."
+  best_for: ["lake holidays", "beaches", "cycling", "hiking", "relaxation"]
+  source: "Visit Rwanda"
+  source_url: "https://visitrwanda.com/destinations/lake-kivu/"
+  last_reviewed: "2026-06-20"
+  tags: ["lake-kivu", "rubavu", "karongi", "rusizi", "beach"]
+  language: en

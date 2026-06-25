@@ -1,0 +1,386 @@
+kind: service_automation_config
+version: 1
+
+responses:
+  - id: auto.business.registration.start
+    category: business
+    service_id: rdb.business_registration
+    intents:
+      keywords:
+        - register business
+        - business registration
+        - register company
+        - domestic business
+        - enterprise registration
+        - start business
+        - rdb registration
+        - one stop
+    service:
+      title: Business Registration Automation
+      source: RDB Unified Registry System User Manual v1.0 and ORG business registration guidance
+      portal_url: https://www.onestopcentre.rdb.rw
+      official_url: https://org.rdb.rw/business-registration/
+      last_reviewed: "2026-06-20"
+    languages:
+      en:
+        title: Start a business registration
+        summary: I can prepare the user for the RDB Unified Registry process, identify the correct registration path, and list the missing details before they go to the portal.
+        ready_message: I have enough information to prepare the registration checklist.
+      fr:
+        title: Demarrer un enregistrement d'entreprise
+        summary: Je peux preparer l'utilisateur au processus RDB Unified Registry, choisir le bon parcours et lister les informations manquantes avant le portail.
+      rw:
+        title: Gutangira kwandikisha ubucuruzi
+        summary: Nshobora gufasha kumenya inzira ikwiye muri RDB Unified Registry no kwerekana amakuru abura mbere yo kujya ku rubuga.
+    facts:
+      - Business registration is handled online through the RDB/ORG service.
+      - Official ORG guidance says business registration is online and free of charge.
+      - RDB investment guidance says company registration can take about six hours when the application is compliant.
+    fields:
+      - id: registration_path
+        label: Registration path
+        type: choice
+        required: true
+        prompt: "Which path should I prepare: domestic company, enterprise/sole trader, branch of foreign company, or name reservation?"
+        options:
+          - id: domestic_company
+            label: Domestic company
+            keywords: [domestic company, company, limited, ltd, shares, shareholders]
+          - id: enterprise
+            label: Enterprise or sole trader
+            keywords: [enterprise, sole trader, sole proprietorship, individual business]
+          - id: foreign_branch
+            label: Branch of foreign company
+            keywords: [foreign branch, foreign company, branch]
+          - id: name_reservation
+            label: Name reservation
+            keywords: [name reservation, reserve name, business name]
+      - id: applicant_type
+        label: Applicant type
+        type: choice
+        required: true
+        prompt: Is the applicant Rwandan, a local resident, or a foreigner?
+        options:
+          - id: rwandan
+            label: Rwandan citizen
+            keywords: [rwandan, citizen, national id, nid]
+          - id: local_resident
+            label: Local resident
+            keywords: [resident, local resident]
+          - id: foreigner
+            label: Foreigner
+            keywords: [foreigner, passport, foreign]
+      - id: has_account
+        label: URS account status
+        type: choice
+        required: true
+        prompt: Does the applicant already have a URS/RDB portal account?
+        options:
+          - id: yes
+            label: Existing account
+            keywords: [already have account, existing user, returning user, have account]
+          - id: no
+            label: New account needed
+            keywords: [new user, no account, register account, create account]
+      - id: has_reserved_name
+        label: Reserved business name
+        type: choice
+        required: false
+        prompt: Has the business name already been reserved?
+        options:
+          - id: yes
+            label: Reserved name available
+            keywords: [reserved name, already reserved]
+          - id: no
+            label: No reserved name
+            keywords: [no reserved name, continue without reserved name]
+    steps:
+      - Confirm account access or create a URS account.
+      - Choose the right service path from the RDB Unified Registry services list.
+      - Capture business details, address, contacts, and business activities.
+      - Verify phone and email OTPs where required.
+      - Capture ownership, management, beneficial ownership, and attachments where applicable.
+      - Preview the application, correct errors, consent to declarations, and submit for review.
+    next_actions:
+      - Ask the missing questions listed below.
+      - Prepare a checklist before opening the official portal.
+      - Send the user to the official portal only after the service path is clear.
+
+  - id: auto.business.post_registration
+    category: business
+    service_id: rdb.post_registration_services
+    intents:
+      keywords:
+        - annual return
+        - good standing
+        - current standing
+        - vat certificate
+        - business closure
+        - close business
+        - dormancy
+        - restoration
+        - add branch
+        - amalgamation
+    service:
+      title: Post-registration Business Service Automation
+      source: RDB Unified Registry System User Manual v1.0
+      portal_url: https://www.onestopcentre.rdb.rw
+      last_reviewed: "2026-06-20"
+    languages:
+      en:
+        title: Continue an existing business service
+        summary: I can route the user to the right post-registration service and prepare the required information before they submit through URS.
+    fields:
+      - id: service_request
+        label: Requested service
+        type: choice
+        required: true
+        prompt: "Which service is needed: annual return, good standing, current standing, VAT certificate, add branch, dormancy, closure, restoration, or amalgamation?"
+        options:
+          - id: annual_return
+            label: Annual return
+            keywords: [annual return, return filing]
+          - id: good_standing
+            label: Good standing certificate
+            keywords: [good standing]
+          - id: current_standing
+            label: Current standing certificate
+            keywords: [current standing]
+          - id: vat_certificate
+            label: VAT certificate
+            keywords: [vat certificate, vat]
+          - id: add_branch
+            label: Add branch
+            keywords: [add branch, new branch]
+          - id: dormancy
+            label: Declare dormancy
+            keywords: [dormancy, dormant]
+          - id: closure
+            label: Close business
+            keywords: [close business, closure, dissolve]
+          - id: restoration
+            label: Restore business
+            keywords: [restoration, restore]
+          - id: amalgamation
+            label: Amalgamation
+            keywords: [amalgamation, merge, consolidate]
+      - id: business_identifier
+        label: Business identifier
+        type: text
+        required: true
+        prompt: What is the business name or TIN?
+        extract:
+          patterns:
+            - "\\bTIN[:\\s-]*([0-9]{9})\\b"
+    steps:
+      - Confirm the business is eligible for the selected service.
+      - Check whether the request requires RRA validation, OTP verification, or supporting documents.
+      - Collect reasons, dates, financial details, or resolutions depending on the service.
+      - Attach required PDF documents.
+      - Preview and submit through URS.
+    next_actions:
+      - Identify the exact post-registration service.
+      - Collect the business name or TIN.
+      - Confirm documents before sending the user to the portal.
+
+  - id: auto.insurance.product.triage
+    category: insurance
+    service_id: insurance.product_advice
+    intents:
+      keywords:
+        - insurance
+        - ubwishingizi
+        - assurance
+        - cover
+        - coverage
+        - policy
+        - premium
+        - quote
+        - claim
+    service:
+      title: Insurance Product Automation
+      source: Insurance product and claims guidance configured by service owner
+      last_reviewed: "2026-06-20"
+    languages:
+      en:
+        title: Insurance service triage
+        summary: I can route the client to the right insurance product or claim path, then ask only the details needed for that path.
+      fr:
+        title: Orientation assurance
+        summary: Je peux orienter le client vers le bon produit ou parcours de reclamation, puis demander seulement les details necessaires.
+      rw:
+        title: Guhitamo ubwishingizi
+        summary: Nshobora gufasha umukiriya guhitamo ubwishingizi cyangwa inzira yo gusaba indishyi, hanyuma nkabaza amakuru akenewe gusa.
+    fields:
+      - id: product_type
+        label: Insurance type
+        type: choice
+        required: true
+        prompt: "Which insurance type is the client asking about: motor, health, life, property, travel, agriculture, or business insurance?"
+        options:
+          - id: motor
+            label: Motor insurance
+            keywords: [motor, car, vehicle, moto, imodoka, automobile]
+          - id: health
+            label: Health insurance
+            keywords: [health, medical, mutuelle, hospital]
+          - id: life
+            label: Life insurance
+            keywords: [life, death, family protection]
+          - id: property
+            label: Property insurance
+            keywords: [property, house, building, fire]
+          - id: travel
+            label: Travel insurance
+            keywords: [travel, trip, visa]
+          - id: agriculture
+            label: Agriculture insurance
+            keywords: [crop, livestock, agriculture, farming]
+          - id: business
+            label: Business insurance
+            keywords: [business insurance, liability, shop, company]
+      - id: request_type
+        label: Request type
+        type: choice
+        required: true
+        prompt: Does the client need a quote, a claim, requirements, or a simple explanation?
+        options:
+          - id: quote
+            label: Quote
+            keywords: [quote, premium, price, cost, igiciro, devis]
+          - id: claim
+            label: Claim
+            keywords: [claim, accident, loss, report, indishyi]
+          - id: requirements
+            label: Requirements
+            keywords: [requirements, documents, needed, required]
+          - id: explanation
+            label: Explanation
+            keywords: [explain, what is, how does]
+    steps:
+      - Identify the product type and request type.
+      - Ask product-specific questions instead of assuming one insurance type.
+      - For quotes, collect rating factors and show that the result is indicative until confirmed by a licensed insurer.
+      - For claims, collect incident type, date, documents, and insurer contact path.
+      - Provide next steps and handoff options.
+    next_actions:
+      - Ask the missing triage questions.
+      - Load the product-specific workflow after product type is known.
+      - Avoid giving a final premium unless the quote inputs are complete.
+
+  - id: auto.tourism.license.application
+    category: tourism
+    service_id: rdb.tourism_operating_license
+    intents:
+      keywords:
+        - tourism operating license
+        - tourism license
+        - tourism licence
+        - apply for tourism license
+        - tour operator license
+        - travel agent license
+        - tour guide license
+        - hotel license
+        - restaurant license
+        - bar license
+        - nightclub license
+        - cultural tourism license
+        - tourism information center
+    service:
+      title: Tourism Operating License Automation
+      source: RDB Tourism Regulation FAQ and Resources
+      portal_url: https://tourismregulation.rw/
+      official_url: https://tourismregulation.rw/en/faqs/
+      resources_url: https://tourismregulation.rw/en/web/1/
+      last_reviewed: "2026-06-20"
+    languages:
+      en:
+        title: Tourism operating license
+        summary: I can identify the tourism entity category, show the official licensing path, and prepare the required checklist before the applicant uses the RDB Tourism Regulation portal.
+        ready_message: I have enough information to prepare the tourism license checklist.
+      fr:
+        title: Licence d'exploitation touristique
+        summary: Je peux identifier la categorie de l'entite touristique, presenter le parcours officiel et preparer la liste de controle avant le portail RDB Tourism Regulation.
+      rw:
+        title: Uruhushya rwo gukora ubukerarugendo
+        summary: Nshobora kumenya icyiciro cy'ikigo cy'ubukerarugendo, kwerekana inzira yemewe, no gutegura urutonde rw'ibisabwa mbere yo gukoresha urubuga rwa RDB Tourism Regulation.
+    facts:
+      - Tourism entities apply through the RDB Tourism Regulation portal.
+      - The FAQ lists a non-refundable tourism operating license application fee of RWF 80,000.
+      - RDB says a complete license application is processed within 15 days, subject to missing documents or inspection corrections.
+      - A tourism operating license does not expire, but entities must pass annual inspections and can face suspension or cancellation for violations.
+    fields:
+      - id: tourism_entity_type
+        label: Tourism entity type
+        type: choice
+        required: true
+        prompt: "Which tourism entity type is this: accommodation, restaurant/bar/nightclub, tour operator, travel agent, tour guide, tourism information center, or cultural tourism/museum?"
+        options:
+          - id: accommodation
+            label: Accommodation establishment
+            keywords: [accommodation, hotel, town hotel, vacation hotel, lodge, motel, serviced apartment, villa, cottage, tented camp]
+          - id: restaurant_bar_nightclub
+            label: Restaurant, bar or nightclub
+            keywords: [restaurant, bar, nightclub, food, hospitality]
+          - id: tour_operator
+            label: Tour operator
+            keywords: [tour operator, safari company, tour company]
+          - id: travel_agent
+            label: Travel agent
+            keywords: [travel agent, travel agency]
+          - id: tour_guide
+            label: Tour guide
+            keywords: [tour guide, guide]
+          - id: tourism_information_center
+            label: Tourism information center
+            keywords: [tourism information center, information centre, information office]
+          - id: cultural_tourism_museum
+            label: Cultural tourism or museum
+            keywords: [cultural tourism, museum, cultural village, private museum]
+      - id: business_registered
+        label: Business registration status
+        type: choice
+        required: true
+        prompt: Is the business already registered with RDB and does it have a valid registration certificate?
+        options:
+          - id: yes
+            label: Registered
+            keywords: [registered, have certificate, registration certificate]
+          - id: no
+            label: Not registered yet
+            keywords: [not registered, no certificate, need registration]
+      - id: request_stage
+        label: Request stage
+        type: choice
+        required: false
+        prompt: Does the applicant need requirements, application guidance, payment guidance, inspection preparation, or license verification?
+        options:
+          - id: requirements
+            label: Requirements
+            keywords: [requirements, documents, checklist, required]
+          - id: application
+            label: Application guidance
+            keywords: [apply, application, submit]
+          - id: payment
+            label: Payment guidance
+            keywords: [payment, fee, pay, 80000, 80,000]
+          - id: inspection
+            label: Inspection preparation
+            keywords: [inspection, inspect, reinspection]
+          - id: verification
+            label: License verification
+            keywords: [verify, licensed, registered entity, check license]
+    steps:
+      - Register or log in on the RDB Tourism Regulation portal.
+      - Select the correct tourism entity category.
+      - Complete the online tourism operating license application.
+      - Upload supporting documents for the selected entity type.
+      - Pay the non-refundable application fee and submit proof of payment where required.
+      - Prepare for RDB inspection of the premises or operations.
+      - Resolve missing documents or inspection corrections if RDB requests them.
+      - Receive the tourism operating license after approval.
+    next_actions:
+      - Ask for the tourism entity type if it is not clear.
+      - Load the document checklist for the selected entity type.
+      - Check the licensed-entity registry when the user asks whether an entity is licensed.
+      - Send the applicant to the official portal after the checklist is clear.
